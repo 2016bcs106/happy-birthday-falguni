@@ -43,7 +43,7 @@ function start() {
 
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-        console.log(coordinates.length);
+        magic();
 
         // ctx.putImageData(
         //     imageData,
@@ -134,63 +134,65 @@ function start() {
 
     // return;
 
-    const activeFireworks = [];
-    const blownFireworks = [];
+    function magic() {
+        const activeFireworks = [];
+        const blownFireworks = [];
 
-    activeFireworks.push(
-        new Firework(ctx, ctx.canvas.width, ctx.canvas.height, {
-            x: Math.floor(Math.random() * (ctx.canvas.width - 200)) + 100,
-            y: Math.floor(Math.random() * (ctx.canvas.height - 200)) + 100
-        })
-    );
-
-    requestAnimationFrame(() => loop(ctx));
-
-    let pendingTimeout = false;
-
-    function loop(ctx) {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-
-        activeFireworks.forEach((firework, index) => {
-            firework.draw(coordinates);
-        });
-
-        blownFireworks.forEach((firework, index) => {
-            firework.draw(coordinates);
-        });
-
-        for (let coordinate of coordinates) {
-            if (coordinate.visible) {
-                ctx.beginPath();
-                ctx.fillStyle = coordinate.color;
-                ctx.arc(coordinate.x, coordinate.y, coordinate.radius, 0, 2 * Math.PI, false);
-                ctx.fill();
-                ctx.closePath();
-            }
-        }
-
-
-        if (activeFireworks.length > 0 && activeFireworks[0].isBlown && !pendingTimeout) {
-            pendingTimeout = true;
-            blownFireworks.push(activeFireworks.shift());
-            setTimeout(() => {
-                pendingTimeout = false;
-                activeFireworks.push(
-                    new Firework(ctx, ctx.canvas.width, ctx.canvas.height, {
-                        x: Math.floor(Math.random() * (ctx.canvas.width - 200)) + 100,
-                        y: Math.floor(Math.random() * (ctx.canvas.height / 2))
-                    })
-                )
-            }, 500);
-        }
-
-        while (blownFireworks.length > 0 && blownFireworks[0].isDead) {
-            blownFireworks.shift();
-        }
+        activeFireworks.push(
+            new Firework(ctx, ctx.canvas.width, ctx.canvas.height, {
+                x: Math.floor(Math.random() * (ctx.canvas.width - 200)) + 100,
+                y: Math.floor(Math.random() * (ctx.canvas.height - 200)) + 100
+            })
+        );
 
         requestAnimationFrame(() => loop(ctx));
+
+        let pendingTimeout = false;
+
+        function loop(ctx) {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+
+            activeFireworks.forEach((firework, index) => {
+                firework.draw(coordinates);
+            });
+
+            blownFireworks.forEach((firework, index) => {
+                firework.draw(coordinates);
+            });
+
+            for (let coordinate of coordinates) {
+                if (coordinate.visible) {
+                    ctx.beginPath();
+                    ctx.fillStyle = coordinate.color;
+                    ctx.arc(coordinate.x, coordinate.y, coordinate.radius, 0, 2 * Math.PI, false);
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+
+
+            if (activeFireworks.length > 0 && activeFireworks[0].isBlown && !pendingTimeout) {
+                pendingTimeout = true;
+                blownFireworks.push(activeFireworks.shift());
+                setTimeout(() => {
+                    pendingTimeout = false;
+                    activeFireworks.push(
+                        new Firework(ctx, ctx.canvas.width, ctx.canvas.height, {
+                            x: Math.floor(Math.random() * (ctx.canvas.width - 200)) + 100,
+                            y: Math.floor(Math.random() * (ctx.canvas.height / 2))
+                        })
+                    )
+                }, 500);
+            }
+
+            while (blownFireworks.length > 0 && blownFireworks[0].isDead) {
+                blownFireworks.shift();
+            }
+
+            requestAnimationFrame(() => loop(ctx));
+        }
     }
 }
 
