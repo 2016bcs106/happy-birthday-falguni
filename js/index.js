@@ -43,6 +43,8 @@ function start() {
 
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
+        console.log(coordinates.length);
+
         // ctx.putImageData(
         //     imageData,
         //     0, 0
