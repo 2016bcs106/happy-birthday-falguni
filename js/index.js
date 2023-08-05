@@ -178,7 +178,7 @@ function start() {
                 activeFireworks.push(
                     new Firework(ctx, ctx.canvas.width, ctx.canvas.height, {
                         x: Math.floor(Math.random() * (ctx.canvas.width - 200)) + 100,
-                        y: Math.floor(Math.random() * (ctx.canvas.height / 2)) + 100
+                        y: Math.floor(Math.random() * (ctx.canvas.height / 2))
                     })
                 )
             }, 500);
