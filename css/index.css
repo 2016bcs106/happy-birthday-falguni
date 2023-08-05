@@ -1,0 +1,22 @@
+html, body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100vw;
+}
+
+#theCanvas {
+    height: 90vh;
+    width: 90vw;
+    border: 1px solid green;
+    /*background: black;*/
+}
+
+@font-face {
+    font-family: 'kinkie';
+    src: url('../fonts/KINKIE__.TTF');
+}
